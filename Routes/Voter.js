@@ -46,4 +46,40 @@ route.post('/Voting', async (req, res) => {
     }
 });
 
+
+route.get('/Vote/Counts', async (req, res) => {
+    try {
+        const results = await Vote.aggregate([
+            {
+                $group: {
+                    _id: '$voted',
+                    totalVotes: { $sum: 1 }
+                }
+            },
+            {
+                $sort: {
+                    totalVotes: -1
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    party: '$_id',
+                    totalVotes: 1
+                }
+            }
+        ]);
+
+        res.status(200).json(results);
+
+    } catch (err) {
+        console.error('Error fetching vote counts:', err);
+
+        res.status(500).json({
+            error: 'Internal Server Error'
+        });
+    }
+});
+
+
 module.exports = route;

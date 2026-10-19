@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
+require('dotenv').config();
+const profileRoutes = require('./Routes/ProfileRoutes');
 
 app.use(express.json()); // body parser
+app.use('/', profileRoutes);
 
 app.get('/', (req, res)=>{
     console.log('Welcome to Voting App')
