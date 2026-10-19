@@ -118,7 +118,7 @@ Admin Candidate Management
 -----------------------------
 Backend: Node.js + Express.js
 Database: MongoDB + Mongoose
-Password hashing: bcrypt 
+Password hashing: bcrypt or Argon2
 API testing: Postman
 Version control: Git + GitHub
 Frontend: HTML/CSS/JavaScript or React (can be added later)
