@@ -18,7 +18,7 @@ const personSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['voter', 'admin'],
-        default: voter
+        default: 'voter'
     }
 });
 
