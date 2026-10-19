@@ -1,0 +1,155 @@
+VOTING APPLICATION — PROJECT DESCRIPTION
+=========================================
+
+1. PROJECT OVERVIEW
+-------------------
+Project Name: Voting Application
+
+The Voting Application is a personal full-stack project that allows registered users to sign in, view candidates, and cast one vote. It also provides a results route that returns candidates sorted by vote count.
+
+This is a learning and portfolio project, not a secure or legally valid system for conducting real public elections.
+
+2. PROJECT GOALS
+----------------
+- Build a backend with authentication, database models, and REST API routes.
+- Store users, candidates, and votes in a database.
+- Enforce one vote per user on the server and in the database.
+- Provide candidate listing and vote-count endpoints.
+- Allow administrators to manage candidates.
+- Practise password hashing, validation, authorization, and error handling.
+
+3. USER ROLES
+-------------
+Voter:
+- Sign up and sign in.
+- View candidates.
+- Vote once for one candidate.
+- View candidate vote counts.
+- View their profile and change their password.
+
+Administrator:
+- Create, update, and delete candidates.
+- Manage the candidate list through protected routes.
+- Ordinary users must not be allowed to manage candidates.
+
+4. FUNCTIONAL REQUIREMENTS
+--------------------------
+1. Sign-up: create a new account and reject duplicate identity values.
+2. Login: authenticate using the configured identity field and password.
+3. Candidate listing: return the available candidates without exposing private user data.
+4. Voting: authenticated users can vote for one existing candidate only once.
+5. Vote counts: return candidates sorted by vote count, highest first.
+6. Profile: return the authenticated user's profile without passwords or password hashes.
+7. Password change: verify the current password and hash the new password.
+8. Candidate management: only administrators can create, update, or delete candidates.
+
+5. SUGGESTED DATABASE MODELS
+----------------------------
+User:
+- name: String, required
+- aadhaarNumber: String, required, unique for demo use only
+- passwordHash: String, required
+- role: String, such as "voter" or "admin"
+- createdAt / updatedAt: timestamps
+
+Candidate:
+- name: String, required
+- partyOrGroup: String, optional
+- description: String, optional
+- isActive: Boolean, default true
+- createdAt / updatedAt: timestamps
+
+Vote:
+- voter: User ID, required, unique
+- candidate: Candidate ID, required
+- createdAt: timestamp
+
+A unique database index on Vote.voter helps enforce the one-vote-per-user rule. A production secret-ballot system requires a more careful design to avoid linking a voter's identity to their choice.
+
+6. API ROUTES — YOUR PLANNED ROUTES
+-----------------------------------
+These routes are shown exactly in the structure you requested. During implementation, you may place them under a common prefix such as /api.
+
+User Authentication
+- POST /signup
+  Create a new user account.
+- POST /login
+  Log in to an existing account.
+
+Voting
+- GET /candidates
+  Get the list of candidates.
+- POST /vote/:candidateId
+  Vote for a specific candidate.
+
+Vote Counts
+- GET /vote/counts
+  Get the list of candidates sorted by their vote counts, highest first.
+
+User Profile
+- GET /profile
+  Get the authenticated user's profile information.
+- PUT /profile/password
+  Change the user's password.
+
+Admin Candidate Management
+- POST /candidates
+  Create a new candidate.
+- PUT /candidates/:candidateId
+  Update an existing candidate.
+- DELETE /candidates/:candidateId
+  Delete a candidate from the list.
+
+7. ROUTE ACCESS AND SECURITY
+----------------------------
+- POST /signup and POST /login are public routes.
+- POST /vote/:candidateId requires authentication.
+- GET /profile and PUT /profile/password require authentication.
+- GET /candidates and GET /vote/counts may be public, unless you decide otherwise.
+- POST /candidates, PUT /candidates/:candidateId, and DELETE /candidates/:candidateId must be admin-only.
+- Validate that a candidate exists before accepting a vote.
+- Prevent repeat votes on the backend and with a database constraint; frontend checks alone are not enough.
+- Never return passwords or password hashes.
+- Hash passwords with a suitable library such as bcrypt or Argon2.
+- Store secrets and database connection strings in environment variables; do not commit .env files.
+- Validate inputs and use safe, consistent error messages and HTTP status codes.
+
+8. SUGGESTED TECHNOLOGY STACK
+-----------------------------
+Backend: Node.js + Express.js
+Database: MongoDB + Mongoose
+Password hashing: bcrypt 
+API testing: Postman
+Version control: Git + GitHub
+Frontend: HTML/CSS/JavaScript or React (can be added later)
+
+9. BASIC WORKFLOW
+-----------------
+1. A user signs up.
+2. The server validates details and stores a password hash.
+3. The user logs in.
+4. The user requests the candidate list.
+5. The user submits a vote for a candidate.
+6. The server verifies authentication and checks that the user has not voted.
+7. The server records the vote while enforcing the unique-vote constraint.
+8. The vote-count route calculates counts and sorts candidates in descending order.
+9. An administrator manages candidates through protected routes.
+
+10. DEVELOPMENT MILESTONES
+--------------------------
+Milestone 1: Set up the Node.js project and MongoDB connection.
+Milestone 2: Create the User model, sign-up, login, and authentication middleware.
+Milestone 3: Create the Candidate model and candidate routes.
+Milestone 4: Create the Vote model and enforce one vote per user.
+Milestone 5: Implement vote counts sorted from highest to lowest.
+Milestone 6: Implement profile and password-change routes.
+Milestone 7: Add admin-only candidate management.
+Milestone 8: Test routes in Postman and document setup and examples.
+
+11. PRIVACY NOTE
+----------------
+Aadhaar numbers are highly sensitive personal information. Use fake/demo values for this portfolio project; do not collect real Aadhaar data without appropriate legal review and safeguards. Consider a generated demo voter ID instead. This learning project should not be used to run a real election.
+
+12. INITIAL SCOPE
+-----------------
+Start with the backend and test it using Postman. Implement authentication, candidates, voting, vote counts, profile/password, and admin candidate management before adding a frontend or push-based live updates.

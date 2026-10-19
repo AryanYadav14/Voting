@@ -1,0 +1,30 @@
+{
+  "name": "voting-project",
+  "version": "1.0.0",
+  "description": "A full-stack voting application built to practise Node.js, Express.js, MongoDB, authentication, and REST APIs.",
+  "homepage": "https://github.com/AryanYadav14/Voting-#readme",
+  "bugs": {
+    "url": "https://github.com/AryanYadav14/Voting-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AryanYadav14/Voting-.git"
+  },
+  "license": "ISC",
+  "author": "Aryan",
+  "type": "commonjs",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "mongoose": "^9.11.2",
+    "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  }
+}
